@@ -31,14 +31,16 @@ window.addEventListener('DOMContentLoaded', () => {
 window.onload = fetiche();
 
 const
-    containerPost = document.getElementById("containerPost");
+    containerPost = document.getElementById("containerPost"),
+    mainDisplay   = document.getElementById("main"),
+    container     = document.getElementById("container");
 
 
 
 function fetiche() {
     for (let i = 0; i < 5; i++) {
         fetch('http://localhost:3333/posts')
-            .then(data => data.json())
+            .then(info => info.json())
             .then(posts => {
 
                 let line = document.createElement("hr")
@@ -46,7 +48,8 @@ function fetiche() {
 
                 let sectionPost = document.createElement("section")
                 sectionPost.className = "displayPost";
-                sectionPost.onclick = () => modalPost(); // Add the function to watch the "MODAL POST"
+                sectionPost.style.cursor = "pointer";
+                sectionPost.onclick = () => modalPost(i); // Add the function to watch the "MODAL POST"
 
                 let postTittle = document.createElement('h2');
                 postTittle.className = 'post-title';
@@ -67,6 +70,17 @@ function fetiche() {
                 parraph.style.color = "#6c757d";
                 parraph.style.color = "2rem 0";
 
+                let spanIcon = document.createElement("span");
+
+                let iconEdit = document.createElement("img");
+                iconEdit.className ="icons";
+                iconEdit.setAttribute("src", "assets/img/edit.png");
+                iconEdit.onclick = () => modalPost(i); // Edit de object content
+
+                let iconDelete = document.createElement("img");
+                iconDelete.className ="icons";
+                iconDelete.setAttribute("src", "assets/img/delete.png");
+                iconDelete.onclick = () => modalPost(i); // Remove all the post
 
 
                 if (i != 0) {
@@ -74,14 +88,35 @@ function fetiche() {
                     containerPost.appendChild(sectionPost)
                     sectionPost.appendChild(postTittle);
                     sectionPost.appendChild(subTitle);
-                    sectionPost.appendChild(parraph)
+                    sectionPost.appendChild(parraph);
+                    sectionPost.appendChild(spanIcon)
+                    spanIcon.appendChild(iconEdit);
+                    spanIcon.appendChild(iconDelete);
+
                 }else {
                     containerPost.appendChild(sectionPost)
                     sectionPost.appendChild(postTittle);
                     sectionPost.appendChild(subTitle);
                     sectionPost.appendChild(parraph)
+                    sectionPost.appendChild(spanIcon)
+                    spanIcon.appendChild(iconEdit);
+                    spanIcon.appendChild(iconDelete);
                 }
             })
     }
+}
+
+function modalPost(i) {
+    mainDisplay.removeChild(container);
+
+    let modalPost = document.createElement("div");
+    modalPost.className = "shadow-lg p-3 mb-5 bg-white rounded";
+    modalPost.style.height = "700px";
+
+    let titleModalPost = document.createElement("h2");
+    
+
+    mainDisplay.appendChild(modalPost);
+
 }
 
