@@ -45,11 +45,11 @@ function feticheAll() {
 
                 let postTittle = document.createElement('h2');
                 postTittle.className = 'post-title';
-                postTittle.innerHTML = posts[a].title;
+                postTittle.textContent = posts[a].title;
 
                 let subTitle = document.createElement('h3');
                 subTitle.className = 'subTitle post-subtitle';
-                subTitle.innerHTML = posts[a].body;
+                subTitle.textContent = posts[a].body;
 
                 let parraph = document.createElement("p");
                 parraph.className = "post-meta nameParraph";

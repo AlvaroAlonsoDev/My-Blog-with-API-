@@ -1,4 +1,56 @@
+//OnLoad
 
+window.onload = fetiche();
+window.onload = storeAPI();
+
+// Const
+
+const
+    containerPost = document.getElementById("containerPost"),
+    mainDisplay = document.getElementById("main"),
+    container = document.getElementById("container"),
+    fetchPosts = [],
+    fetchUsers = [],
+    fetchComments = [];
+
+
+// STORE API
+
+function storeAPI() {
+
+    fetch(`http://localhost:3333/posts`)
+        .then((res) => res.json())
+        .then((posts) => {
+            // titleModalPost.textContent = posts[i].title;
+            // bodyModalPost.textContent = posts[i].body;
+
+            posts.forEach(e => {
+                fetchPosts.push(e);
+            });
+        });
+
+    fetch(`http://localhost:3333/users`)
+        .then((res) => res.json())
+        .then((users) => {
+            // userName.textContent = users[i].username;
+            // userEmail.textContent = users[i].email;
+
+            users.forEach(e => {
+                fetchUsers.push(e);
+            });
+        });
+
+    fetch(`http://localhost:3333/comments`)
+        .then((res) => res.json())
+        .then((comments) => {
+
+            // When it done the "Comment step" add the correct value with the API
+
+            comments.forEach(e => {
+                fetchComments.push(e);
+            });
+        });
+}
 
 // NAV RESPONSIVE
 
@@ -28,15 +80,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // API
 
-window.onload = fetiche();
-
-const
-    containerPost = document.getElementById("containerPost"),
-    mainDisplay = document.getElementById("main"),
-    container = document.getElementById("container");
-
-
-
 function fetiche() {
     for (let i = 0; i < 3; i++) {
         fetch('http://localhost:3333/posts')
@@ -53,11 +96,11 @@ function fetiche() {
 
                 let postTittle = document.createElement('h2');
                 postTittle.className = 'post-title';
-                postTittle.innerHTML = posts[i].title;
+                postTittle.textContent = posts[i].title;
 
                 let subTitle = document.createElement('h3');
                 subTitle.className = 'subTitle post-subtitle';
-                subTitle.innerHTML = posts[i].body;
+                subTitle.textContent = posts[i].body;
 
                 let parraph = document.createElement("p");
                 parraph.className = "post-meta nameParraph";
@@ -75,12 +118,12 @@ function fetiche() {
                 let iconEdit = document.createElement("img");
                 iconEdit.className = "icons";
                 iconEdit.setAttribute("src", "assets/img/edit.png");
-                iconEdit.onclick = () => modalPost(i); // Edit de object content
+                // iconEdit.onclick = () => modalPost(i); // Edit de object content
 
                 let iconDelete = document.createElement("img");
                 iconDelete.className = "icons";
                 iconDelete.setAttribute("src", "assets/img/delete.png");
-                iconDelete.onclick = () => modalPost(i); // Remove all the post
+                // iconDelete.onclick = () => modalPost(i); // Remove all the post
 
 
                 if (i != 0) {
@@ -110,27 +153,6 @@ function fetiche() {
 
 function modalPost(i) {
 
-    const fetchReq1 = fetch(`http://localhost:3333/posts`)
-        .then((res) => res.json())
-        .then((posts) => {
-            titleModalPost.innerHTML = posts[i].title;
-            bodyModalPost.innerHTML = posts[i].body;
-        })
-
-
-    const fetchReq2 = fetch(`http://localhost:3333/users`)
-        .then((res) => res.json())
-        .then((users) => {
-            name.innerHTML = users[i].name;
-            userName.innerHTML = users[i].username;
-            userEmail.innerHTML = users[i].email;
-        });
-
-    const fetchReq3 = fetch(`http://localhost:3333/comments`)
-        .then((res) => res.json())
-        .then((comments) => {
-            // When it done the "Comment step" add the correct value with the API
-        });
     container.style.display = "none";
 
     let displayModalPost = document.createElement("div");
@@ -139,12 +161,12 @@ function modalPost(i) {
 
     let titleModalPost = document.createElement("h2");
     titleModalPost.className = 'post-title';
-    titleModalPost.innerHTML = "TITLE"; // Change title
+    titleModalPost.textContent = fetchPosts[i].title; // Change title
     displayModalPost.appendChild(titleModalPost);
 
     let bodyModalPost = document.createElement("p");
     bodyModalPost.className = 'subTitle post-subtitle';
-    bodyModalPost.innerHTML = "quia et suscipit o" // Change SubsTitle
+    bodyModalPost.textContent = fetchPosts[i].body; // Change SubsTitle
     bodyModalPost.style.fontSize = "1.125rem";
     bodyModalPost.style.fontStyle = "italic";
     bodyModalPost.style.marginTop = "0";
@@ -152,19 +174,19 @@ function modalPost(i) {
     bodyModalPost.style.color = "2rem 0";
     displayModalPost.appendChild(bodyModalPost);
 
-    let name = document.createElement('h5');
-    name.className = 'subTitle post-subtitle';
-    name.innerHTML = "Alvaro Alonso"; // Change RealName
-    displayModalPost.appendChild(name);
+    let justUser = document.createElement('h5');
+    justUser.className = 'subTitle post-subtitle';
+    justUser.textContent = "User"; // Change RealName
+    displayModalPost.appendChild(justUser);
 
     let userName = document.createElement('p');
     userName.className = 'subTitle post-subtitle';
-    userName.innerHTML = "alvaroalonsoDev"; // Change UserName
+    userName.textContent = "alvaroalonsoDev"; // Change UserName
     displayModalPost.appendChild(userName);
 
     let userEmail = document.createElement('p');
     userEmail.className = 'subTitle post-subtitle';
-    userEmail.innerHTML = "airuritac@gmail.com"; // Change email
+    userEmail.textContent = "airuritac@gmail.com"; // Change email
     displayModalPost.appendChild(userEmail);
 
     let lineModalPost = document.createElement("hr")
@@ -173,41 +195,38 @@ function modalPost(i) {
 
     let commentsTitle = document.createElement("h2");
     commentsTitle.className = 'post-title';
-    commentsTitle.innerHTML = "Comments";
+    commentsTitle.textContent = "Comments";
     displayModalPost.appendChild(commentsTitle);
 
     let buttonLoadComments = document.createElement("button")
     buttonLoadComments.className = "btnLC";
-    buttonLoadComments.innerHTML = "Load comments";
+    buttonLoadComments.textContent = "Load comments";
     displayModalPost.appendChild(buttonLoadComments);
 
     displayModalPost.appendChild(lineModalPost);
 
     let buttonEdit = document.createElement("button")
     buttonEdit.className = "btnEdit";
-    buttonEdit.innerHTML = "Edit";
+    buttonEdit.textContent = "Edit";
     displayModalPost.appendChild(buttonEdit);
 
     let buttonDelete = document.createElement("button")
     buttonDelete.className = "btnEdit";
-    buttonDelete.innerHTML = "Delete";
+    buttonDelete.textContent = "Delete";
     displayModalPost.appendChild(buttonDelete);
 
     mainDisplay.appendChild(displayModalPost);
 
+    // conectAPI();
+}
 
+    // ADDING RIGHT VALUE IN MODAL POST
+function conectAPI(){
+    for (let x = 0; x < 10; x++) {
+        if (fetchPosts[x].userId = fetchUsers[x].id) {
+            userName.textContent = fetchUsers[x].username;
+            userEmail.textContent = fetchUsers[x].email;
+        }
 
-
-
-
-    // const allData = Promise.all([fetchReq1, fetchReq2, fetchReq3]);
-    // console.log(allData);
-    // fetch('http://localhost:3333/posts'),
-    //     fetch('http://localhost:3333/users'),
-    //     fetch('http://localhost:3333/comments')
-    //         .then(data => data.json())
-    //         .then(posts => {
-    //             console.log(posts);
-    //         })
-    //         .then()
+    }
 }
