@@ -12231,6 +12231,7 @@ section .subTitle {
   background: #e8e8e8;
   position: relative;
   font-weight: 1000;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-size: 17px;
   -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
@@ -12267,6 +12268,7 @@ section .subTitle {
   color: #090909;
   padding: 0.7em 1.7em;
   font-size: 18px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 0.5em;
   background: #e8e8e8;
   border: 1px solid #e8e8e8;
@@ -12276,6 +12278,28 @@ section .subTitle {
 }
 
 .btnEdit:active {
+  color: #666;
+  box-shadow: inset 4px 4px 12px #c5c5c5,
+    inset -4px -4px 12px #ffffff;
+}
+
+/* BTN CLOSE */
+
+.btnClose {
+  color: #090909;
+  padding: 7px 5px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 0.5em;
+  background: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  transition: all .3s;
+  box-shadow: 6px 6px 12px #c5c5c5,
+    -6px -6px 12px #ffffff;
+}
+
+.btnClose:active {
   color: #666;
   box-shadow: inset 4px 4px 12px #c5c5c5,
     inset -4px -4px 12px #ffffff;

@@ -25,14 +25,13 @@ window.addEventListener('DOMContentLoaded', () => {
         scrollPos = currentTop;
     });
 })
-
 // Load all POSTS
 
 window.onload = feticheAll();
 
 function feticheAll() {
     for (let a = 0; a < 100; a++) {
-        fetch('http://localhost:3333/posts')
+        fetch('http://localhost:3000/posts')
             .then(data => data.json())
             .then(posts => {
 
