@@ -272,10 +272,12 @@ function modalPost(i) {
 
     mainDisplay.appendChild(displayModalPost);
 
+        // CONDITIONAL 
+
     for (let x = 0; fetchUsers.length; x++) {
         if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
-            userEmail.textContent = fetchUsers[x].email;
+            // change value to the email
         }
     }
 }
