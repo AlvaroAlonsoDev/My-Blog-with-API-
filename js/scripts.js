@@ -9,6 +9,7 @@ const
     containerPost = document.getElementById("containerPost"),
     mainDisplay = document.getElementById("main"),
     container = document.getElementById("container"),
+
     fetchPosts = [],
     fetchUsers = [],
     fetchComments = [];
@@ -21,9 +22,6 @@ function storeAPI() {
     fetch(`http://localhost:3333/posts`)
         .then((res) => res.json())
         .then((posts) => {
-            // titleModalPost.textContent = posts[i].title;
-            // bodyModalPost.textContent = posts[i].body;
-
             posts.forEach(e => {
                 fetchPosts.push(e);
             });
@@ -32,9 +30,6 @@ function storeAPI() {
     fetch(`http://localhost:3333/users`)
         .then((res) => res.json())
         .then((users) => {
-            // userName.textContent = users[i].username;
-            // userEmail.textContent = users[i].email;
-
             users.forEach(e => {
                 fetchUsers.push(e);
             });
@@ -103,7 +98,7 @@ function fetiche() {
                 subTitle.textContent = posts[i].body;
 
                 let parraph = document.createElement("p");
-                parraph.className = "post-meta nameParraph";
+                parraph.className = "post-meta nameParraph"; // CHANGE THE USERNAME 
                 parraph.innerHTML = `Posted by
                 <a id="namePost1" style= "text-decoration: none;" href="#!">Metalligirl</a>
                 on September 24, 2022`;
@@ -118,12 +113,10 @@ function fetiche() {
                 let iconEdit = document.createElement("img");
                 iconEdit.className = "icons";
                 iconEdit.setAttribute("src", "assets/img/edit.png");
-                // iconEdit.onclick = () => modalPost(i); // Edit de object content
 
                 let iconDelete = document.createElement("img");
                 iconDelete.className = "icons";
                 iconDelete.setAttribute("src", "assets/img/delete.png");
-                // iconDelete.onclick = () => modalPost(i); // Remove all the post
 
 
                 if (i != 0) {
@@ -145,7 +138,7 @@ function fetiche() {
                     spanIcon.appendChild(iconEdit);
                     spanIcon.appendChild(iconDelete);
                 }
-            })
+            });
     }
 }
 
@@ -185,6 +178,7 @@ function modalPost(i) {
     displayModalPost.appendChild(userName);
 
     let userEmail = document.createElement('p');
+    userEmail.id = "userEmail";
     userEmail.className = 'subTitle post-subtitle';
     userEmail.textContent = "airuritac@gmail.com"; // Change email
     displayModalPost.appendChild(userEmail);
@@ -217,16 +211,11 @@ function modalPost(i) {
 
     mainDisplay.appendChild(displayModalPost);
 
-    // conectAPI();
-}
 
-    // ADDING RIGHT VALUE IN MODAL POST
-function conectAPI(){
-    for (let x = 0; x < 10; x++) {
-        if (fetchPosts[x].userId = fetchUsers[x].id) {
+    for (let x = 0; fetchUsers.length; x++) {
+        if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
-            userEmail.textContent = fetchUsers[x].email;
+            // change value to the email
         }
-
     }
 }
