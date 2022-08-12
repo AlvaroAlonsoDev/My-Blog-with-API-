@@ -46,7 +46,7 @@ function feticheAll() {
                 postTittle.className = 'post-title';
                 postTittle.textContent = posts[a].title;
 
-                let subTitle = document.createElement('h3');
+                let subTitle = document.createElement('p');
                 subTitle.className = 'subTitle post-subtitle';
                 subTitle.textContent = posts[a].body;
 

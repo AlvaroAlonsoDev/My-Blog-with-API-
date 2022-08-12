@@ -86,8 +86,8 @@ function fetiche() {
                 let sectionPost = document.createElement("section")
                 sectionPost.className = "displayPost";
                 sectionPost.style.cursor = "pointer";
-                sectionPost.onclick = () => modalPost(i); // Add the function to watch the "MODAL POST"
-
+                sectionPost.onclick = () => modalPost(i);
+                
                 let postTittle = document.createElement('h2');
                 postTittle.className = 'post-title';
                 postTittle.textContent = posts[i].title;
@@ -146,13 +146,21 @@ function fetiche() {
 function modalPost(i) {
 
     container.style.display = "none";
+    window.open('index.html#subheading', '_self');
+
+    greyOut = document.getElementById("greyOut");
+    masthead = document.getElementById("masthead")
+
+    greyOut.style.opacity = "0.5";
+    masthead.style.opacity = "0.5";
 
     let displayModalPost = document.createElement("div");
     displayModalPost.id = "modalPost";
-    displayModalPost.className = "shadow p-3 mb-5 bg-body rounded";
+    displayModalPost.className = "shadow p-3 mb-5 bg-body rounded grey";
     displayModalPost.style.border = "1px solid #ccc";
+    displayModalPost.style.backgroundColor = "#ccc";
     displayModalPost.style.padding = "50px";
-    displayModalPost.style.width = "70%";
+    displayModalPost.style.width = "100%";
 
     let buttonClose = document.createElement("button")
     buttonClose.className = "btnClose";
@@ -286,6 +294,12 @@ function closeModalPost() {
     displayModalPost = document.getElementById("modalPost");
     mainDisplay.removeChild(displayModalPost);
     container.style.display = "block";
+
+    greyOut = document.getElementById("greyOut");
+    masthead = document.getElementById("masthead")
+
+    greyOut.style.opacity = "1";
+    masthead.style.opacity = "1";
 };
 
 function openComments() {
