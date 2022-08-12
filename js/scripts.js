@@ -72,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // API
 
 function fetiche() {
-    for (let i = 38; i < 41; i++) {
+    for (let i = 0; i < 4; i++) {
         fetch('http://localhost:3000/posts')
             .then(info => info.json())
             .then(posts => {
@@ -266,7 +266,7 @@ function modalPost(i) {
 
     
 
-    for (let x = 0; fetchUsers.length; x++){
+    for (let x = 0; x < fetchUsers.length; x++){
         if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
             userEmail.textContent = fetchUsers[x].email;
@@ -302,7 +302,6 @@ function openComments(i) {
     for (let z = 0; z < fetchComments.length; z++){
 
         if (fetchPosts[i].id === fetchComments[z].postId){
-
             let eachComment = document.createElement("div");
             eachComment.id = "eachComment";
             eachComment.className = "comment-section";
@@ -327,7 +326,7 @@ function openComments(i) {
             commentEmail.textContent = "email: " + fetchComments[z].email;
             eachComment.appendChild(commentEmail);
             
-        }else {console.log("no funciona");}
+        }
     }
 
 };
