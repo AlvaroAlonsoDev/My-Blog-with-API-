@@ -18,7 +18,7 @@ const
 
 function storeAPI() {
 
-    fetch(`http://localhost:3333/posts`)
+    fetch(`http://localhost:3000/posts`)
         .then((res) => res.json())
         .then((posts) => {
             posts.forEach(e => {
@@ -26,7 +26,7 @@ function storeAPI() {
             });
         });
 
-    fetch(`http://localhost:3333/users`)
+    fetch(`http://localhost:3000/users`)
         .then((res) => res.json())
         .then((users) => {
             users.forEach(e => {
@@ -34,7 +34,7 @@ function storeAPI() {
             });
         });
 
-    fetch(`http://localhost:3333/comments`)
+    fetch(`http://localhost:3000/comments`)
         .then((res) => res.json())
         .then((comments) => {
 
@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // API
 
 function fetiche() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 38; i < 42; i++) {
         fetch('http://localhost:3000/posts')
             .then(info => info.json())
             .then(posts => {
@@ -275,7 +275,7 @@ function modalPost(i) {
     for (let x = 0; fetchUsers.length; x++) {
         if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
-            // change value to the email
+            userEmail.textContent = fetchUsers[x].email;
         }
     }
 }
