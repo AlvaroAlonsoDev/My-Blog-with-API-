@@ -6,13 +6,13 @@ window.onload = storeAPI();
 // Const
 
 const
-    containerPost = document.getElementById("containerPost"),
-    mainDisplay = document.getElementById("main"),
-    container = document.getElementById("container"),
+    containerPost   = document.getElementById("containerPost"),
+    mainDisplay     = document.getElementById("main"),
+    container       = document.getElementById("container"),
 
-    fetchPosts = [],
-    fetchUsers = [],
-    fetchComments = [];
+    fetchPosts      = [],
+    fetchUsers      = [],
+    fetchComments   = [];
 
 // STORE API
 
@@ -37,9 +37,6 @@ function storeAPI() {
     fetch(`http://localhost:3000/comments`)
         .then((res) => res.json())
         .then((comments) => {
-
-            // When it done the "Comment step" add the correct value with the API
-
             comments.forEach(e => {
                 fetchComments.push(e);
             });
@@ -75,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // API
 
 function fetiche() {
-    for (let i = 38; i < 42; i++) {
+    for (let i = 38; i < 41; i++) {
         fetch('http://localhost:3000/posts')
             .then(info => info.json())
             .then(posts => {
@@ -83,7 +80,8 @@ function fetiche() {
                 let line = document.createElement("hr")
                 line.className = 'my-4';
 
-                let sectionPost = document.createElement("section")
+                let sectionPost = document.createElement("section");
+                sectionPost.id = i
                 sectionPost.className = "displayPost";
                 sectionPost.style.cursor = "pointer";
                 sectionPost.onclick = () => modalPost(i);
@@ -149,7 +147,7 @@ function modalPost(i) {
     window.open('index.html#subheading', '_self');
 
     greyOut = document.getElementById("greyOut");
-    masthead = document.getElementById("masthead")
+    masthead = document.getElementById("masthead");
 
     greyOut.style.opacity = "0.5";
     masthead.style.opacity = "0.5";
@@ -171,7 +169,7 @@ function modalPost(i) {
 
     let titleModalPost = document.createElement("h2");
     titleModalPost.className = 'post-title';
-    titleModalPost.innerHTML = "TITLE"; // Change title
+    titleModalPost.innerHTML = fetchPosts[i].title; // Change title DONE
     titleModalPost.style.marginTop = "10px";
     titleModalPost.style.marginLeft = "10px";
     titleModalPost.style.margiRight = "10px";
@@ -179,7 +177,7 @@ function modalPost(i) {
 
     let bodyModalPost = document.createElement("p");
     bodyModalPost.className = 'subTitle post-subtitle';
-    bodyModalPost.innerHTML = "quia et suscipit o" // Change SubsTitle
+    bodyModalPost.innerHTML = fetchPosts[i].body; // Change SubsTitle DONE
     bodyModalPost.style.fontSize = "1.125rem";
     bodyModalPost.style.fontStyle = "italic";
     bodyModalPost.style.marginTop = "10px";
@@ -191,19 +189,19 @@ function modalPost(i) {
 
     let name = document.createElement('h5');
     name.className = 'subTitle post-subtitle';
-    name.innerHTML = "Alvaro Alonso"; // Change RealName
+    name.innerHTML = "User"; 
     name.style.margin = "10px";
     displayModalPost.appendChild(name);
 
     let userName = document.createElement('p');
     userName.className = 'subTitle post-subtitle';
-    userName.innerHTML = "alvaroalonsoDev"; // Change UserName
+    userName.innerHTML = "alvaroalonsoDev"; // Change UserName DONE
     userName.style.margin = "10px";
     displayModalPost.appendChild(userName);
 
     let userEmail = document.createElement('p');
     userEmail.className = 'subTitle post-subtitle';
-    userEmail.innerHTML = "airuritac@gmail.com"; // Change email
+    userEmail.innerHTML = "airuritac@gmail.com"; // Change email DONE
     userEmail.style.margin = "10px";
     displayModalPost.appendChild(userEmail);
 
@@ -224,7 +222,7 @@ function modalPost(i) {
     buttonLoadComments.className = "btnLC";
     buttonLoadComments.innerHTML = "Load comments";
     buttonLoadComments.style.marginBottom = "10px";
-    buttonLoadComments.onclick = () => openComments();
+    buttonLoadComments.onclick = () => openComments(i);
     displayModalPost.appendChild(buttonLoadComments);
 
     let commentSection = document.createElement("div");
@@ -234,23 +232,6 @@ function modalPost(i) {
     commentSection.style.padding = "10px";
     displayModalPost.appendChild(commentSection);
 
-    let commentName = document.createElement("h4");
-    commentName.id = "commentName";
-    commentName.className = "comment-name";
-    commentName.textContent = "Comment name";
-    commentSection.appendChild(commentName);
-
-    let commentBody = document.createElement("p");
-    commentBody.id = "commentBody";
-    commentBody.className = "comment-body";
-    commentBody.textContent = "Comment body";
-    commentSection.appendChild(commentBody);
-
-    let commentEmail = document.createElement("p");
-    commentEmail.id = "commentEmail";
-    commentEmail.className = "comment-email";
-    commentEmail.textContent = "Comment email";
-    commentSection.appendChild(commentEmail);
 
     let closeCommentButton = document.createElement("button");
     closeCommentButton.id = "closeCommentButton";
@@ -260,14 +241,15 @@ function modalPost(i) {
     closeCommentButton.style.marginBottom = "10px";
     closeCommentButton.onclick = () => closeComments();
     displayModalPost.appendChild(closeCommentButton);
-
+    
     // displayModalPost.appendChild(lineModalPost);
-
+    
     let buttonDelete = document.createElement("button")
     buttonDelete.className = "btnEdit";
     buttonDelete.innerHTML = "Delete";
     buttonDelete.style.float = "right";
     buttonDelete.style.marginBottom = "10px";
+    buttonDelete.onclick = () => deletePost (i);
     displayModalPost.appendChild(buttonDelete);
 
     let buttonEdit = document.createElement("button")
@@ -282,12 +264,15 @@ function modalPost(i) {
 
         // CONDITIONAL 
 
-    for (let x = 0; fetchUsers.length; x++) {
+    
+
+    for (let x = 0; fetchUsers.length; x++){
         if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
-            // change value to the email
+            userEmail.textContent = fetchUsers[x].email;
         }
     }
+    
 }
 
 function closeModalPost() {
@@ -302,16 +287,49 @@ function closeModalPost() {
     masthead.style.opacity = "1";
 };
 
-function openComments() {
-    displayModalPost = document.getElementById("modalPost");
-    commentSection = document.getElementById("commentSection");
-    buttonLoadComments = document.getElementById("buttonLoadComments");
-    closeCommentButton = document.getElementById("closeCommentButton");
+function openComments(i) {
+    const
+        commentSection = document.getElementById("commentSection"),
+        buttonLoadComments = document.getElementById("buttonLoadComments"),
+        closeCommentButton = document.getElementById("closeCommentButton");
 
     buttonLoadComments.style.display = "none";
     closeCommentButton.style.display = "block";
     commentSection.style.display = "block";
     commentSection.style.marginBottom = "20px";
+
+
+    for (let z = 0; z < fetchComments.length; z++){
+
+        if (fetchPosts[i].id === fetchComments[z].postId){
+
+            let eachComment = document.createElement("div");
+            eachComment.id = "eachComment";
+            eachComment.className = "comment-section";
+            eachComment.style.padding = "10px";
+            commentSection.appendChild(eachComment);
+            
+            let commentName = document.createElement("h4");
+            commentName.id = "commentName";
+            commentName.className = "comment-name";
+            commentName.textContent = fetchComments[z].name;
+            eachComment.appendChild(commentName);
+        
+            let commentBody = document.createElement("p");
+            commentBody.id = "commentBody";
+            commentBody.className = "comment-body";
+            commentBody.textContent = fetchComments[z].body;
+            eachComment.appendChild(commentBody);
+        
+            let commentEmail = document.createElement("p");
+            commentEmail.id = "commentEmail";
+            commentEmail.className = "comment-email";
+            commentEmail.textContent = "email: " + fetchComments[z].email;
+            eachComment.appendChild(commentEmail);
+            
+        }else {console.log("no funciona");}
+    }
+
 };
 
 function closeComments() {
@@ -324,3 +342,19 @@ function closeComments() {
     closeCommentButton.style.display = "none";
     buttonLoadComments.style.display = "block";
 }
+
+function deletePost() {
+    displayModalPost = document.getElementById("modalPost");
+    mainDisplay.removeChild(displayModalPost);
+    container.style.display = "block";
+
+    greyOut = document.getElementById("greyOut");
+    masthead = document.getElementById("masthead")
+
+    greyOut.style.opacity = "1";
+    masthead.style.opacity = "1";
+
+
+}
+
+
