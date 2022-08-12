@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // API
 
 function fetiche() {
-    for (let i = 38; i < 42; i++) {
+    for (let i = 0; i < 3; i++) {
         fetch('http://localhost:3000/posts')
             .then(info => info.json())
             .then(posts => {
@@ -272,6 +272,14 @@ function modalPost(i) {
 
     mainDisplay.appendChild(displayModalPost);
 
+        // CONDITIONAL 
+
+    for (let x = 0; fetchUsers.length; x++) {
+        if (fetchPosts[i].userId === fetchUsers[x].id) {
+            userName.textContent = fetchUsers[x].username;
+            userEmail.textContent = fetchUsers[x].email;
+        }
+    }
     for (let x = 0; fetchUsers.length; x++) {
         if (fetchPosts[i].userId === fetchUsers[x].id) {
             userName.textContent = fetchUsers[x].username;
