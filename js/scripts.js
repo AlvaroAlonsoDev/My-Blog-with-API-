@@ -1,6 +1,6 @@
 //OnLoad
 
-window.onload = fetiche();
+window.onload = loadPosts();
 window.onload = storeAPI();
 
 // Const
@@ -71,8 +71,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // API
 
-function fetiche() {
-    for (let i = 0; i < 4; i++) {
+function loadPosts() {
+    for (let i = 0; i < 3; i++) { //crearlos todos y le metes display none, cuando pulse en all post display block...
         fetch('http://localhost:3000/posts')
             .then(info => info.json())
             .then(posts => {
@@ -160,7 +160,8 @@ function modalPost(i) {
     displayModalPost.style.padding = "50px";
     displayModalPost.style.width = "100%";
 
-    let buttonClose = document.createElement("button")
+    let buttonClose = document.createElement("button");
+    buttonClose.id = "btnClose";
     buttonClose.className = "btnClose";
     buttonClose.innerHTML = "X";
     buttonClose.style.float = "right";
@@ -168,6 +169,7 @@ function modalPost(i) {
     displayModalPost.appendChild(buttonClose);
 
     let titleModalPost = document.createElement("h2");
+    titleModalPost.id = "titleModalPost";
     titleModalPost.className = 'post-title';
     titleModalPost.innerHTML = fetchPosts[i].title; // Change title DONE
     titleModalPost.style.marginTop = "10px";
@@ -176,6 +178,7 @@ function modalPost(i) {
     displayModalPost.appendChild(titleModalPost);
 
     let bodyModalPost = document.createElement("p");
+    bodyModalPost.id = "bodyModalPost";
     bodyModalPost.className = 'subTitle post-subtitle';
     bodyModalPost.innerHTML = fetchPosts[i].body; // Change SubsTitle DONE
     bodyModalPost.style.fontSize = "1.125rem";
@@ -187,35 +190,43 @@ function modalPost(i) {
     bodyModalPost.style.color = "2rem 0";
     displayModalPost.appendChild(bodyModalPost);
 
+    let divUserModal = document.createElement ("div")
+    divUserModal.id = "divUserModal"
+    displayModalPost.appendChild(divUserModal);
+
     let name = document.createElement('h5');
     name.className = 'subTitle post-subtitle';
     name.innerHTML = "User"; 
     name.style.margin = "10px";
-    displayModalPost.appendChild(name);
+    divUserModal.appendChild(name);
 
     let userName = document.createElement('p');
     userName.className = 'subTitle post-subtitle';
     userName.innerHTML = "alvaroalonsoDev"; // Change UserName DONE
     userName.style.margin = "10px";
-    displayModalPost.appendChild(userName);
+    divUserModal.appendChild(userName);
 
     let userEmail = document.createElement('p');
     userEmail.className = 'subTitle post-subtitle';
     userEmail.innerHTML = "airuritac@gmail.com"; // Change email DONE
     userEmail.style.margin = "10px";
-    displayModalPost.appendChild(userEmail);
+    divUserModal.appendChild(userEmail);
 
     let lineModalPost = document.createElement("hr")
     lineModalPost.className = 'hr-divider';
     lineModalPost.style.marginTop = "10px";
     lineModalPost.style.marginBottom = "10px";
-    displayModalPost.appendChild(lineModalPost);
+    divUserModal.appendChild(lineModalPost);
+
+    let divSeccionCED = document.createElement("div");
+    divSeccionCED.id = "divSeccionCED";
+    displayModalPost.appendChild(divSeccionCED);
 
     let commentsTitle = document.createElement("h2");
     commentsTitle.className = 'post-title';
     commentsTitle.innerHTML = "Comments";
     commentsTitle.style.margin = "10px";
-    displayModalPost.appendChild(commentsTitle);
+    divSeccionCED.appendChild(commentsTitle);
 
     let buttonLoadComments = document.createElement("button");
     buttonLoadComments.id = "buttonLoadComments"
@@ -223,14 +234,14 @@ function modalPost(i) {
     buttonLoadComments.innerHTML = "Load comments";
     buttonLoadComments.style.marginBottom = "10px";
     buttonLoadComments.onclick = () => openComments(i);
-    displayModalPost.appendChild(buttonLoadComments);
+    divSeccionCED.appendChild(buttonLoadComments);
 
     let commentSection = document.createElement("div");
     commentSection.id = "commentSection";
     commentSection.className = "comment-section";
     commentSection.style.display = "none";
     commentSection.style.padding = "10px";
-    displayModalPost.appendChild(commentSection);
+    divSeccionCED.appendChild(commentSection);
 
 
     let closeCommentButton = document.createElement("button");
@@ -240,17 +251,17 @@ function modalPost(i) {
     closeCommentButton.style.display = "none";
     closeCommentButton.style.marginBottom = "10px";
     closeCommentButton.onclick = () => closeComments();
-    displayModalPost.appendChild(closeCommentButton);
+    divSeccionCED.appendChild(closeCommentButton);
     
     // displayModalPost.appendChild(lineModalPost);
     
-    let buttonDelete = document.createElement("button")
+    let buttonDelete = document.createElement("button");
     buttonDelete.className = "btnEdit";
     buttonDelete.innerHTML = "Delete";
     buttonDelete.style.float = "right";
     buttonDelete.style.marginBottom = "10px";
     buttonDelete.onclick = () => deletePost (i);
-    displayModalPost.appendChild(buttonDelete);
+    divSeccionCED.appendChild(buttonDelete);
 
     let buttonEdit = document.createElement("button")
     buttonEdit.className = "btnEdit";
@@ -258,7 +269,8 @@ function modalPost(i) {
     buttonEdit.style.marginRight = "10px";
     buttonEdit.style.marginBottom = "10px";
     buttonEdit.style.float = "right";
-    displayModalPost.appendChild(buttonEdit);
+    buttonEdit.onclick = () => editPost();
+    divSeccionCED.appendChild(buttonEdit);
 
     mainDisplay.appendChild(displayModalPost);
 
@@ -332,28 +344,99 @@ function openComments(i) {
 };
 
 function closeComments() {
-    displayModalPost = document.getElementById("modalPost");
-    commentSection = document.getElementById("commentSection");
-    buttonLoadComments = document.getElementById("buttonLoadComments");
-    closeCommentButton = document.getElementById("closeCommentButton");
+    const 
+        displayModalPost = document.getElementById("modalPost"),
+        commentSection = document.getElementById("commentSection"),
+        buttonLoadComments = document.getElementById("buttonLoadComments"),
+        closeCommentButton = document.getElementById("closeCommentButton");
 
-    commentSection.style.display = "none";
+    commentSection.style.display = "none"; // Tiene el bug de crearse repetidas veces los comentarios, se soluciona con un condicional al crear los comentarios
     closeCommentButton.style.display = "none";
     buttonLoadComments.style.display = "block";
 }
 
-function deletePost() {
-    displayModalPost = document.getElementById("modalPost");
-    mainDisplay.removeChild(displayModalPost);
-    container.style.display = "block";
+// function deletePost() {
+//     displayModalPost = document.getElementById("modalPost");
+//     mainDisplay.removeChild(displayModalPost);
+//     container.style.display = "block";
 
-    greyOut = document.getElementById("greyOut");
-    masthead = document.getElementById("masthead")
+//     greyOut = document.getElementById("greyOut");
+//     masthead = document.getElementById("masthead")
 
-    greyOut.style.opacity = "1";
-    masthead.style.opacity = "1";
+//     greyOut.style.opacity = "1";
+//     masthead.style.opacity = "1";
 
+// }
 
+function editPost() {
+    const 
+    titleModalPost = document.getElementById("titleModalPost"),
+    bodyModalPost = document.getElementById("bodyModalPost"),
+    modalPost = document.getElementById("modalPost"),
+    btnClose = document.getElementById("btnClose"),
+    divSeccionCED = document.getElementById("divSeccionCED"),
+    divUserModal = document.getElementById("divUserModal");
+
+    modalPost.removeChild(titleModalPost);
+    modalPost.removeChild(bodyModalPost);
+    modalPost.removeChild(btnClose);
+    modalPost.removeChild(divSeccionCED);
+    modalPost.removeChild(divUserModal);
+    
+    let divEditModal = document.createElement("div");
+    divEditModal.className = "modal-body p-5 pt-0";
+    modalPost.prepend(divEditModal)
+    // modalPost.appendChild(divEditModal);
+
+    let putTitleModal = document.createElement("div");
+    putTitleModal.id = "putTitleModal";
+    putTitleModal.className = "form-floating mb-3";
+    putTitleModal.style.marginBottom = "30px"
+    divEditModal.appendChild(putTitleModal);
+
+    let inputTitleModal = document.createElement("input");
+    inputTitleModal.id = "floatingInput"
+    inputTitleModal.type = "text";
+    inputTitleModal.className = "form-control rounded-3";
+    putTitleModal.appendChild(inputTitleModal);
+
+    let labelTitleModal = document.createElement("label");
+    labelTitleModal.setAttribute( "for", "floatingInput");
+    labelTitleModal.textContent = "New title";
+    putTitleModal.appendChild(labelTitleModal);
+
+    let putBodyModal = document.createElement("div");
+    putBodyModal.id = "putBodyModal";
+    putBodyModal.className = "form-floating mb-3";
+    divEditModal.appendChild(putBodyModal);
+
+    let inputBodyModal = document.createElement("input");
+    inputBodyModal.id = "floatingBody"
+    inputBodyModal.type = "text";
+    inputBodyModal.className = "form-control rounded-3";
+    putBodyModal.appendChild(inputBodyModal);
+
+    let labelBodyModal = document.createElement("label");
+    labelBodyModal.setAttribute( "for", "floatingBody");
+    labelBodyModal.textContent = "New body";
+    putBodyModal.appendChild(labelBodyModal);
+
+    let divBtnSubmitModal = document.createElement("div");
+    divEditModal.appendChild(divBtnSubmitModal);
+
+    let BtnSubmitModal = document.createElement("button");
+    BtnSubmitModal.className = "w-100 mb-2 btn btn-lg rounded-3 btn-primary";
+    BtnSubmitModal.type = "submit";
+    BtnSubmitModal.textContent = "Submit";
+    BtnSubmitModal.onclick = () => editAxios(textContent.labelTitleModal, textContent.inputBodyModal);
+    divBtnSubmitModal.appendChild(BtnSubmitModal);
 }
 
-
+function editAxios(x, y) {
+    axios.put("", {
+        title: x,
+        body: y
+    })
+    .then(res => console.log(res))
+    .catch((err) => console.log(err))
+}
